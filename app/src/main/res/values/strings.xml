@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">ArtSpaceApp</string>
+
+    <string-array name="listOfAuthor">
+        <item name = "Artist">Pierre GABRIEL</item>
+        <item name = "Artist">Jean Gabouche</item>
+        <item name = "Artist">Max pasildlan</item>
+        <item name = "Artist">SunNight</item>
+        <item name = "Artist">Le roi des Zouloux</item>
+    </string-array>
+    <string-array name="listOfTitle">
+        <item name = "Title">A night in Puebla</item>
+        <item name = "Title">A day in Puebla</item>
+        <item name = "Title">A nice market in Puebla</item>
+        <item name = "Title">A beautiful Bridge</item>
+        <item name = "Title">The best Sunset of the coast</item>
+    </string-array>
+</resources>
