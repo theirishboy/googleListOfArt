@@ -44,14 +44,48 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun ControlArtDisplay(){
-    RenderArt()
+fun RenderImage(imageID : Int){
+    Image(
+        painter = painterResource(imageID),
+        contentDescription = "description",
+        modifier = Modifier.padding(25.dp))
+
+
+}
+@Composable
+fun RenderTitle(title : String){
+    Text(text = title,
+        modifier = Modifier
+            .padding(start = 9.dp, top = 9.dp, end = 9.dp),
+        fontSize = 25.sp,
+        maxLines = 2,
+
+        )
+}
+@Composable
+fun RenderArtist(artist : String){
+    Text(text = artist,
+        modifier = Modifier
+            .padding(start = 9.dp),
+        fontSize = 17.sp,
+        maxLines = 1,
+        fontWeight = FontWeight.Bold )
+}
+
+@Composable
+fun RenderButton(onclick : () -> Unit, text : String, modifier : Modifier) {
+    Button(onClick = onclick,modifier = modifier
+        .size(150.dp, 50.dp)){
+        Text(text = text)
+    }
+
 }
 @Composable
 fun RenderArt() {
-    var currentStep by remember { mutableStateOf(1) }
+    var currentStep by remember { mutableStateOf(0) }
     val artistList = stringArrayResource(R.array.listOfAuthor)
     val titleList = stringArrayResource(R.array.listOfTitle)
+    val max = titleList.size
     Column(modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
            verticalArrangement = Arrangement.Center,
@@ -69,33 +103,19 @@ fun RenderArt() {
 
         ){
             when(currentStep){
+                0-> {
+                    RenderImage(imageID = R.drawable.pueblachurch)
+                }
                 1-> {
-                    Image(
-                        painter = painterResource(R.drawable.pueblachurch),
-                        contentDescription = "description",
-                        modifier = Modifier.padding(25.dp))
+                    RenderImage(imageID = R.drawable.pueblamarket)
                 }
                 2-> {
-                    Image(
-                        painter = painterResource(R.drawable.pueblamarket),
-                        contentDescription = "description",
-                        modifier = Modifier.padding(25.dp))
+                    RenderImage(imageID = R.drawable.nightclub)
                 }
                 3-> {
-                    Image(
-                        painter = painterResource(R.drawable.nightclub),
-                        contentDescription = "description",
-                        modifier = Modifier.padding(25.dp))
+                    RenderImage(imageID = R.drawable.sanponchocolor)
                 }
-                4-> {
-                    Image(
-                        painter = painterResource(R.drawable.sanponchocolor),
-                        contentDescription = "description",
-                        modifier = Modifier.padding(25.dp))
-                }
-                5->   Image(painter = painterResource(R.drawable.sanponchosunset), contentDescription ="description", modifier = Modifier.padding(25.dp)
-
-                )
+                4-> RenderImage(imageID = R.drawable.sanponchosunset)
             }
 
         }
@@ -109,104 +129,7 @@ fun RenderArt() {
 
         ){
             when(currentStep){
-                1-> {
-                    Column {
-                        Text(text = titleList[0],
-                            modifier = Modifier
-                                .align(Alignment.CenterHorizontally)
-                                .padding(start = 9.dp, top = 9.dp, end = 9.dp),
-                            fontSize = 25.sp,
-                            maxLines = 2,
-
-                            )
-                        Text(text = artistList[0],
-                            modifier = Modifier
-                                .align(Alignment.Start)
-                                .padding(start = 9.dp),
-                            fontSize = 17.sp,
-                            maxLines = 1,
-                            fontWeight = FontWeight.Bold )
-                    }
-                }
-                2-> {
-                    Column {
-
-                        Text(text = titleList[1],
-                            modifier = Modifier
-                                .align(Alignment.CenterHorizontally)
-                                .padding(start = 9.dp, top = 9.dp, end = 9.dp),
-                            fontSize = 25.sp,
-                            maxLines = 2,
-
-                            )
-                        Text(text = artistList[1],
-                            modifier = Modifier
-                                .align(Alignment.Start)
-                                .padding(start = 9.dp),
-                            fontSize = 17.sp,
-                            maxLines = 1,
-                            fontWeight = FontWeight.Bold )
-                    }
-                }
-                3-> {
-                    Column {
-
-                        Text(text = titleList[2],
-                            modifier = Modifier
-                                .align(Alignment.CenterHorizontally)
-                                .padding(start = 9.dp, top = 9.dp, end = 9.dp),
-                            fontSize = 25.sp,
-                            maxLines = 2,
-
-                            )
-                        Text(text = artistList[2],
-                            modifier = Modifier
-                                .align(Alignment.Start)
-                                .padding(start = 9.dp),
-                            fontSize = 17.sp,
-                            maxLines = 1,
-                            fontWeight = FontWeight.Bold )
-                    }
-                }
-                4-> {
-                    Column {
-
-                        Text(text = titleList[3],
-                            modifier = Modifier
-                                .align(Alignment.CenterHorizontally)
-                                .padding(start = 9.dp, top = 9.dp, end = 9.dp),
-                            fontSize = 25.sp,
-                            maxLines = 2,
-
-                            )
-                        Text(text = artistList[3],
-                            modifier = Modifier
-                                .align(Alignment.Start)
-                                .padding(start = 9.dp),
-                            fontSize = 17.sp,
-                            maxLines = 1,
-                            fontWeight = FontWeight.Bold )
-                    }
-                }
-                5->    Column {
-
-                    Text(text = titleList[4],
-                        modifier = Modifier
-                            .align(Alignment.CenterHorizontally)
-                            .padding(start = 9.dp, top = 9.dp, end = 9.dp),
-                        fontSize = 25.sp,
-                        maxLines = 2,
-
-                        )
-                    Text(text = artistList[4],
-                        modifier = Modifier
-                            .align(Alignment.Start)
-                            .padding(start = 9.dp),
-                        fontSize = 17.sp,
-                        maxLines = 1,
-                        fontWeight = FontWeight.Bold )
-                }
-
+                in 0..max->{RenderDescription(titleList[currentStep],artistList[currentStep])}
 
             }
 
@@ -214,24 +137,26 @@ fun RenderArt() {
         Spacer(modifier = Modifier.height(16.dp))
         Row(Modifier.weight(0.1f)){
             Column(){
-                Button(onClick = {if(currentStep > 1){currentStep--}else {currentStep = 5}},modifier= Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .size(150.dp, 50.dp) ){
-                    Text(text = "Previous")
-                }
+               RenderButton(onclick = {if(currentStep > 0){currentStep--}else {currentStep = 4}}, text = "Previous", Modifier.align(Alignment.CenterHorizontally))
             }
             Spacer(modifier = Modifier.height(20.dp))
 
             Column(modifier = Modifier.padding(start = 10.dp)){
-                Button(onClick = {if(currentStep < 5){currentStep++}else {currentStep = 1}},modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .size(150.dp, 50.dp)){
-                    Text(text = "Next")
-                }
+                RenderButton(onclick = {if(currentStep < 4){currentStep++}else {currentStep = 0}}, text = "Next", Modifier.align(Alignment.CenterHorizontally)
+                )
             }
 
 
         }
+
+    }
+}
+
+@Composable
+fun RenderDescription(title: String, artist: String) {
+    Column {
+        RenderTitle(title = title)
+        RenderArtist(artist)
 
     }
 }
